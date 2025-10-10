@@ -35,8 +35,29 @@
       border-radius: 14px; object-fit: cover;
       box-shadow: 0 4px 10px rgba(0,0,0,0.25);
       transition: transform .25s;
+      cursor: pointer;
     }
     .gallery img:hover { transform: scale(1.05); }
+
+    /* lightbox */
+    .lightbox {
+      display: none; position: fixed; top:0; left:0;
+      width:100%; height:100%; background: rgba(0,0,0,0.9);
+      justify-content:center; align-items:center;
+      z-index:1000;
+    }
+    .lightbox img {
+      max-width:90%; max-height:80%; border-radius:14px;
+      box-shadow:0 0 20px #fff;
+    }
+    .close-btn, .nav-btn {
+      position: absolute; color: white; font-size: 2rem;
+      background: rgba(0,0,0,0.4); border: none; cursor: pointer;
+      padding: 10px 14px; border-radius: 8px;
+    }
+    .close-btn { top: 20px; right: 30px; }
+    .nav-btn.left { left: 30px; }
+    .nav-btn.right { right: 30px; }
 
     /* big celebration banner above iban */
     .celebrate-banner {
@@ -95,7 +116,6 @@
     #password-screen input { padding:10px 14px; font-size:1.1rem; border-radius:10px; border:none; text-align:center; }
     #password-screen button { margin-top:12px; padding:10px 18px; font-size:1rem; border:none; border-radius:10px; background:#ff69b4; color:white; cursor:pointer; }
 
-    /* responsive tweaks */
     @media (min-width:900px) {
       h1 { font-size:2.6rem; }
       .celebrate-text { font-size:1.35rem; padding:14px 20px; }
@@ -115,10 +135,8 @@
   <div id="main-content" style="display:none;">
     <h1>🎉 İyi ki Doğdun Dayım! 🎂</h1>
 
-    <!-- GİZLİ MÜZİK (YOUTUBE, görünmez) -->
     <iframe id="bg-music" width="0" height="0" style="display:none;" allow="autoplay"></iframe>
 
-    <!-- 10 FOTO -->
     <div class="gallery">
       <img src="foto1.jpg" alt="foto1">
       <img src="foto2.jpg" alt="foto2">
@@ -132,14 +150,19 @@
       <img src="foto10.jpg" alt="foto10">
     </div>
 
-    <!-- Banner: 'En İyi Şekilde Ben Kutladım Demi Dayım' + finger -->
-    <div class="celebrate-banner" aria-hidden="false">
-      <div class="celebrate-text">En İyi Şekilde Ben Kutladım Demi Dayım</div>
-      <!-- parmak butonu; tıklayınca IBAN'a kay ve kopyala -->
-      <button class="finger-btn" title="IBAN'a git ve kopyala" onclick="gotoAndCopyIban()">👇</button>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="close-btn" onclick="closeLightbox()">✖️</button>
+      <button class="nav-btn left" onclick="prevImage()">⬅️</button>
+      <img id="lightbox-img" src="">
+      <button class="nav-btn right" onclick="nextImage()">➡️</button>
     </div>
 
-    <!-- IBAN kutusu -->
+    <div class="celebrate-banner">
+      <div class="celebrate-text">En İyi Şekilde Ben Kutladım Demi Dayım</div>
+      <button class="finger-btn" onclick="gotoAndCopyIban()">👇</button>
+    </div>
+
     <div class="iban-box" id="iban-box">
       <div class="iban-label">IBAN:</div>
       <div class="iban-text" id="iban">TR630001200143800001108536</div>
@@ -152,7 +175,6 @@
       <input type="text" id="name" placeholder="Adın">
       <textarea id="message" rows="3" placeholder="Mesajını yaz..."></textarea>
       <button class="copy-btn" onclick="addMessage()">Gönder</button>
-
       <h3 style="margin-top:12px">📜 Gelen Mesajları Sadece Ben Görücem</h3>
       <div id="messages"></div>
     </div>
@@ -161,14 +183,41 @@
   </div>
 
   <script>
-    // Şifre
+    const images = Array.from(document.querySelectorAll('.gallery img'));
+    let currentIndex = 0;
+
+    images.forEach((img, i) => {
+      img.addEventListener('click', () => openLightbox(i));
+    });
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const lightbox = document.getElementById('lightbox');
+      const imgEl = document.getElementById('lightbox-img');
+      imgEl.src = images[index].src;
+      lightbox.style.display = 'flex';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = 'none';
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      document.getElementById('lightbox-img').src = images[currentIndex].src;
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      document.getElementById('lightbox-img').src = images[currentIndex].src;
+    }
+
     function checkPass() {
       const pass = document.getElementById("pass").value;
       if (pass === "09022013") {
         document.getElementById("password-screen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
         loadMessages();
-        // başlat: gizli youtube müzik (kullanıcı etkileşimi olduğu için autoplay çalışır)
         const iframe = document.getElementById("bg-music");
         iframe.src = "https://www.youtube.com/embed/EsHV2x0cS5k?autoplay=1&loop=1&playlist=EsHV2x0cS5k&controls=0&rel=0";
       } else {
@@ -176,25 +225,18 @@
       }
     }
 
-    // IBAN kopyala (normal buton)
     function copyIban() {
       const iban = document.getElementById("iban").innerText.trim();
       navigator.clipboard.writeText(iban).then(() => {
         alert("✅ IBAN kopyalandı!");
-      }).catch(() => {
-        // fallback
-        prompt("IBAN'ı kopyalayın:", iban);
       });
     }
 
-    // Finger button: önce IBAN'a kay, sonra kopyala
     function gotoAndCopyIban() {
-      const box = document.getElementById("iban-box");
-      box.scrollIntoView({ behavior: "smooth", block: "center" });
-      setTimeout(() => { copyIban(); }, 550); // kayma sonrası kopyala
+      document.getElementById("iban-box").scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(copyIban, 500);
     }
 
-    // Mesaj ekleme (POST /api/message)
     async function addMessage() {
       const name = document.getElementById("name").value.trim();
       const msg = document.getElementById("message").value.trim();
@@ -217,7 +259,6 @@
       }
     }
 
-    // Mesajları DB'den yükle (GET /api/messages)
     async function loadMessages() {
       try {
         const res = await fetch("/api/messages");
@@ -231,20 +272,12 @@
           d.innerHTML = `<strong>${escapeHtml(m.name)}</strong>: ${escapeHtml(m.msg)}`;
           box.appendChild(d);
         });
-      } catch (e) {
-        // sessiz hata (ör. lokalda backend yoksa)
-        console.warn("Mesajlar yüklenemedi:", e);
-      }
+      } catch {}
     }
 
-    // basit XSS koruması için escape
     function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, function(c){
-        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-      });
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
   </script>
 </body>
 </html>
-
-
