@@ -3,27 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dayıma’ya Sürpriz 🎉</title>
+  <title>Levent Dayı’ya Sürpriz 🎉</title>
   <style>
-    * { box-sizing: border-box; }
-
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
       font-family: "Comic Sans MS", cursive, sans-serif;
-      overflow-x: hidden;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
       color: #333;
       text-align: center;
+      overflow-x: hidden;
     }
 
     h1 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-size: 2.2rem;
       margin-top: 40px;
       color: #fff;
       text-shadow: 2px 2px 5px #ff69b4;
       animation: glow 2s infinite alternate;
-      padding: 0 10px;
     }
 
     @keyframes glow {
@@ -32,113 +29,98 @@
     }
 
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
       margin: 30px auto;
-      max-width: 1000px;
-      padding: 0 15px;
+      max-width: 900px;
+      padding: 10px;
     }
 
     .gallery img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
+      width: 150px;
+      height: 150px;
       border-radius: 15px;
+      object-fit: cover;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s;
     }
 
     .gallery img:hover {
-      transform: scale(1.07);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+      transform: scale(1.08);
     }
 
-    footer {
-      margin: 30px 0 20px;
-      color: white;
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      text-shadow: 1px 1px 5px #ff69b4;
-    }
-
-    /* Mesaj kutusu */
-    .message-section {
+    .iban-box {
+      margin: 20px auto;
       background: rgba(255,255,255,0.8);
-      border-radius: 15px;
-      padding: 20px;
-      max-width: 600px;
-      margin: 30px auto;
+      border-radius: 20px;
+      padding: 15px;
+      max-width: 400px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
-    .message-section h2 {
-      color: #ff1493;
-      margin-bottom: 15px;
+    .iban-text {
+      font-size: 1.2rem;
+      font-weight: bold;
     }
 
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
+    button.copy-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
       font-size: 1rem;
-      outline: none;
-    }
-
-    button {
+      border: none;
       background: #ff69b4;
       color: white;
-      border: none;
-      padding: 10px 20px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 1rem;
       transition: 0.3s;
     }
 
-    button:hover {
+    button.copy-btn:hover {
       background: #ff1493;
     }
 
-    .messages {
-      margin-top: 20px;
-      text-align: left;
-      max-height: 300px;
-      overflow-y: auto;
+    .messages-section {
+      margin-top: 40px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 25px;
+      padding: 20px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .messages-section h2 {
+      color: #ff1493;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
     }
 
     .msg {
-      background: #ffe5ec;
-      border-left: 5px solid #ff69b4;
-      border-radius: 8px;
+      background: #ffe4ec;
       padding: 10px;
-      margin-bottom: 10px;
-      word-wrap: break-word;
+      border-radius: 15px;
+      margin: 5px 0;
+      text-align: left;
+      font-size: 1rem;
     }
 
-    .msg strong {
-      color: #ff1493;
+    input, textarea {
+      width: 90%;
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 8px;
     }
 
-    /* Balon animasyonu */
-    .balloon {
-      position: absolute;
-      bottom: -150px;
-      width: 40px;
-      height: 60px;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      opacity: 0.8;
-      animation: float 10s linear infinite;
-      z-index: 0;
+    footer {
+      margin: 30px 0;
+      color: white;
+      text-shadow: 1px 1px 5px #ff69b4;
     }
 
-    @keyframes float {
-      from { transform: translateY(0); }
-      to { transform: translateY(-120vh); }
-    }
-
-    /* Giriş ekranı */
+    /* Şifre ekranı */
     #password-screen {
       position: fixed;
       top: 0; left: 0;
@@ -149,14 +131,6 @@
       justify-content: center;
       align-items: center;
       z-index: 999;
-      padding: 20px;
-      text-align: center;
-    }
-
-    #password-screen h2 {
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-      margin-bottom: 10px;
-      color: #ff1493;
     }
 
     #password-screen input {
@@ -166,8 +140,6 @@
       border: none;
       outline: none;
       text-align: center;
-      max-width: 250px;
-      width: 80%;
     }
 
     #password-screen button {
@@ -182,104 +154,113 @@
       transition: 0.3s;
     }
 
-    #password-screen button:hover {
-      background: #ff1493;
-    }
-
     #hint {
       margin-top: 10px;
       color: #555;
       font-size: 0.9rem;
       font-style: italic;
     }
-
-    audio { display: none; }
   </style>
 </head>
 <body>
+
   <div id="password-screen">
     <h2>🔒 Siteye Giriş</h2>
     <p>Şifreyi gir:</p>
     <input type="password" id="pass" placeholder="Şifre">
     <button onclick="checkPass()">GİRİŞ</button>
-    <p id="hint">İpucu: En Sevdigin Yegeninin Dogum Günü 🎂</p>
+    <p id="hint">İpucu:En Sevdigin Yegeninin Dogum Günü Gün Ay Yıl 🎂</p>
   </div>
 
   <div id="main-content" style="display:none;">
-    <h1>🎉 İyi ki Doğdun- Dayım! 🎂</h1>
+    <h1>🎉 İyi ki Doğdun  Dayım! 🎂</h1>
 
     <audio autoplay loop>
       <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <div class="gallery">
-      <img src="foto1.jpg" alt="foto1">
-      <img src="foto2.jpg" alt="foto2">
-      <img src="foto3.jpg" alt="foto3">
-      <img src="foto4.jpg" alt="foto4">
-      <img src="foto5.jpg" alt="foto5">
-      <img src="foto6.jpg" alt="foto6">
-      <img src="foto7.jpg" alt="foto7">
-      <img src="foto8.jpg" alt="foto8">
-      <img src="foto9.jpg" alt="foto9">
-      <img src="foto10.jpg" alt="foto10">
+      <img src="foto1.jpg" alt="">
+      <img src="foto2.jpg" alt="">
+      <img src="foto3.jpg" alt="">
+      <img src="foto4.jpg" alt="">
+      <img src="foto5.jpg" alt="">
     </div>
 
-    <!-- 💌 Mesaj Bölümü -->
-    <div class="message-section">
-      <h2>💌 Bana Mesaj Bırak</h2>
+    <div class="iban-box">
+      <div class="iban-text">IBAN: <span id="iban">TR630001200143800001108536
+</span></div>
+      <div class="iban-text">Alıcı: <span id="alici">ORHAN DORUK AYKAÇ</span></div>
+      <button class="copy-btn" onclick="copyIban()">📋 Kopyala</button>
+    </div>
+
+    <div class="messages-section">
+      <h2>💬 Mesaj Bırak</h2>
       <input type="text" id="name" placeholder="Adın">
-      <textarea id="message" rows="3" placeholder="Mesajın..."></textarea>
-      <button onclick="addMessage()">Gönder</button>
+      <textarea id="message" rows="3" placeholder="Mesajını yaz..."></textarea>
+      <button class="copy-btn" onclick="addMessage()">Gönder</button>
 
-      <div class="messages" id="messages"></div>
+      <h3>📜 Gelen Mesajlar:</h3>
+      <div id="messages"></div>
     </div>
 
-    <footer>💖 Sevgilerle, Doruk]</footer>
+    <footer>💖 Sevgilerle, Doruk</footer>
   </div>
 
   <script>
+    // Şifre kontrolü
     function checkPass() {
       const pass = document.getElementById("pass").value;
       if (pass === "09022013") {
         document.getElementById("password-screen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
-
-        // Balonlar
-        const colors = ["#ff4b5c","#ffb6b9","#fae3d9","#bbded6","#8ac6d1"];
-        for(let i = 0; i < 20; i++) {
-          let b = document.createElement("div");
-          b.classList.add("balloon");
-          b.style.background = colors[Math.floor(Math.random() * colors.length)];
-          b.style.left = Math.random() * 100 + "vw";
-          b.style.animationDuration = (6 + Math.random() * 5) + "s";
-          document.body.appendChild(b);
-        }
+        loadMessages();
       } else {
-        alert("❌ Yanlış şifre! Tekrar dene.");
+        alert("❌ Yanlış şifre!");
       }
     }
 
-    function addMessage() {
+    // IBAN kopyalama
+    function copyIban() {
+      const iban = document.getElementById("iban").innerText;
+      navigator.clipboard.writeText(iban);
+      alert("✅ IBAN kopyalandı!");
+    }
+
+    // Mesaj ekleme
+    async function addMessage() {
       const name = document.getElementById("name").value.trim();
       const msg = document.getElementById("message").value.trim();
-      if (name === "" || msg === "") {
-        alert("Lütfen adını ve mesajını yaz 📝");
-        return;
+      if (!name || !msg) return alert("Lütfen adını ve mesajını yaz.");
+
+      const res = await fetch("/api/message", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ name, msg })
+      });
+
+      if (res.ok) {
+        document.getElementById("name").value = "";
+        document.getElementById("message").value = "";
+        loadMessages();
+      } else {
+        alert("Mesaj kaydedilemedi 😢");
       }
+    }
 
-      const div = document.createElement("div");
-      div.classList.add("msg");
-      div.innerHTML = `<strong>${name}</strong>: ${msg}`;
-      document.getElementById("messages").appendChild(div);
-
-      // Temizle
-      document.getElementById("name").value = "";
-      document.getElementById("message").value = "";
+    // Mesajları yükle
+    async function loadMessages() {
+      const res = await fetch("/api/messages");
+      const data = await res.json();
+      const box = document.getElementById("messages");
+      box.innerHTML = "";
+      data.forEach(m => {
+        const div = document.createElement("div");
+        div.classList.add("msg");
+        div.innerHTML = `<strong>${m.name}</strong>: ${m.msg}`;
+        box.appendChild(div);
+      });
     }
   </script>
 </body>
 </html>
-
-
-
