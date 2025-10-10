@@ -1,49 +1,53 @@
 import express from "express";
-import pg from "pg";
 import dotenv from "dotenv";
-import path from "path";
+import pkg from "pg";
+import cors from "cors";
 
 dotenv.config();
-const { Pool } = pg;
+const { Pool } = pkg;
 const app = express();
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+app.use(cors());
 app.use(express.json());
-app.use(express.static("."));
+app.use(express.static(".")); // index.html için
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-});
+// tabloyu oluştur (ilk çalıştırmada)
+const createTable = async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS messages (
+      id SERIAL PRIMARY KEY,
+      name TEXT NOT NULL,
+      msg TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+};
+createTable();
 
-// Tablo oluştur
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS messages (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    msg TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
-`);
-
-// Mesaj ekle
+// Mesaj kaydet
 app.post("/api/message", async (req, res) => {
   const { name, msg } = req.body;
+  if (!name || !msg) return res.status(400).send("Eksik veri");
   try {
     await pool.query("INSERT INTO messages (name, msg) VALUES ($1, $2)", [name, msg]);
-    res.sendStatus(200);
+    res.status(200).send("OK");
   } catch (err) {
     console.error(err);
-    res.status(500).send("DB hatası");
+    res.status(500).send("DB error");
   }
 });
 
 // Mesajları getir
 app.get("/api/messages", async (req, res) => {
   try {
-    const result = await pool.query("SELECT name, msg FROM messages ORDER BY id DESC");
+    const result = await pool.query("SELECT * FROM messages ORDER BY created_at DESC");
     res.json(result.rows);
   } catch (err) {
-    res.status(500).send("DB hatası");
+    console.error(err);
+    res.status(500).send("DB error");
   }
 });
 
-app.listen(3000, () => console.log("🚀 http://localhost:3000"));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`🚀 Sunucu http://localhost:${port}`));
