@@ -1,165 +1,104 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Levent Dayı’ya Sürpriz 🎉</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Levent Dayıma Sürpriz 🎉</title>
   <style>
+    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: "Comic Sans MS", cursive, sans-serif;
       background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      color: #333;
-      text-align: center;
-      overflow-x: hidden;
+      color: #333; text-align: center; overflow-x: hidden;
     }
-
     h1 {
-      font-size: 2.2rem;
-      margin-top: 40px;
-      color: #fff;
-      text-shadow: 2px 2px 5px #ff69b4;
+      font-size: 2.2rem; margin-top: 40px;
+      color: #fff; text-shadow: 2px 2px 5px #ff69b4;
       animation: glow 2s infinite alternate;
     }
-
     @keyframes glow {
-      from { text-shadow: 2px 2px 10px #ff69b4; }
-      to { text-shadow: 2px 2px 25px #ff1493; }
+      from { text-shadow: 2px 2px 10px #ff69b4; } to { text-shadow: 2px 2px 25px #ff1493; }
     }
 
+    /* gallery */
     .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin: 30px auto;
-      max-width: 900px;
-      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin: 24px auto;
+      max-width: 960px;
+      padding: 12px;
     }
-
     .gallery img {
-      width: 150px;
-      height: 150px;
-      border-radius: 15px;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s;
+      width: 100%; aspect-ratio:1/1;
+      border-radius: 14px; object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      transition: transform .25s;
     }
+    .gallery img:hover { transform: scale(1.05); }
 
-    .gallery img:hover {
-      transform: scale(1.08);
+    /* big celebration banner above iban */
+    .celebrate-banner {
+      max-width: 900px; margin: 16px auto 6px;
+      display:flex; flex-direction:column; align-items:center; gap:8px;
+      padding: 6px 12px;
     }
-
-    .iban-box {
-      margin: 20px auto;
-      background: rgba(255,255,255,0.8);
-      border-radius: 20px;
-      padding: 15px;
-      max-width: 400px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    .iban-text {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    button.copy-btn {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      background: #ff69b4;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button.copy-btn:hover {
-      background: #ff1493;
-    }
-
-    .messages-section {
-      margin-top: 40px;
+    .celebrate-text {
       background: rgba(255,255,255,0.9);
-      border-radius: 25px;
-      padding: 20px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 12px 16px; border-radius: 14px;
+      font-weight: 800; font-size: 1.15rem;
+      color: #ff1493; box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
-
-    .messages-section h2 {
-      color: #ff1493;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
+    .finger-btn {
+      background: transparent; border: none; font-size: 2rem; cursor: pointer;
+      transform: translateY(0); transition: transform .12s;
     }
+    .finger-btn:active { transform: translateY(3px); }
 
-    .msg {
-      background: #ffe4ec;
-      padding: 10px;
-      border-radius: 15px;
-      margin: 5px 0;
-      text-align: left;
-      font-size: 1rem;
-    }
-
-    input, textarea {
-      width: 90%;
-      padding: 8px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin-top: 8px;
-    }
-
-    footer {
-      margin: 30px 0;
-      color: white;
-      text-shadow: 1px 1px 5px #ff69b4;
-    }
-
-    /* Şifre ekranı */
-    #password-screen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(135deg, #ffb6b9, #fae3d9);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    #password-screen input {
-      padding: 10px 15px;
-      font-size: 1.2rem;
-      border-radius: 10px;
-      border: none;
-      outline: none;
+    /* iban box */
+    .iban-box {
+      margin: 8px auto 20px; background: rgba(255,255,255,0.95);
+      border-radius: 18px; padding: 16px;
+      max-width: 420px; box-shadow: 0 6px 18px rgba(0,0,0,0.12);
       text-align: center;
     }
+    .iban-label { font-size: 0.95rem; color:#555; margin-bottom:6px; }
+    .iban-text { font-size: 1.25rem; font-weight:700; letter-spacing: 1px; color: #111; word-break:break-all; }
+    .alici-text { font-size: 1rem; font-weight:700; margin-top:8px; color:#222; }
 
-    #password-screen button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      background: #ff69b4;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
+    .copy-btn {
+      margin-top:12px; padding:10px 18px; font-size:1rem; border:none;
+      background:#ff69b4; color:#fff; border-radius:10px; cursor:pointer;
     }
+    .copy-btn:active { transform: translateY(2px); }
 
-    #hint {
-      margin-top: 10px;
-      color: #555;
-      font-size: 0.9rem;
-      font-style: italic;
+    /* messages */
+    .messages-section {
+      margin-top: 26px; background: rgba(255,255,255,0.95);
+      border-radius: 18px; padding: 18px; max-width: 560px; margin-left:auto; margin-right:auto;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .messages-section h2 { color:#ff1493; margin:0 0 8px; }
+    input, textarea {
+      width: 100%; padding:10px; border-radius:10px; border:1px solid #ddd; margin-top:8px; font-size:0.98rem;
+    }
+    .msg { background:#ffe4ec; padding:10px; border-radius:12px; margin-top:8px; text-align:left; word-wrap:break-word; }
+
+    footer { margin:28px 0; color:white; text-shadow: 1px 1px 6px #ff69b4; }
+
+    /* password screen */
+    #password-screen { position: fixed; top:0; left:0; width:100%; height:100%;
+      background: linear-gradient(135deg,#ffb6b9,#fae3d9); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:999;
+      padding:20px;
+    }
+    #password-screen input { padding:10px 14px; font-size:1.1rem; border-radius:10px; border:none; text-align:center; }
+    #password-screen button { margin-top:12px; padding:10px 18px; font-size:1rem; border:none; border-radius:10px; background:#ff69b4; color:white; cursor:pointer; }
+
+    /* responsive tweaks */
+    @media (min-width:900px) {
+      h1 { font-size:2.6rem; }
+      .celebrate-text { font-size:1.35rem; padding:14px 20px; }
     }
   </style>
 </head>
@@ -170,27 +109,42 @@
     <p>Şifreyi gir:</p>
     <input type="password" id="pass" placeholder="Şifre">
     <button onclick="checkPass()">GİRİŞ</button>
-    <p id="hint">İpucu: En Sevdiğin Yeğeninin Doğum Günü 🎂</p>
+    <p id="hint">İpucu: En Sevdiğin Yeğeninin Doğum Günü Gün Ay Yıl 🎂</p>
   </div>
 
   <div id="main-content" style="display:none;">
     <h1>🎉 İyi ki Doğdun Dayım! 🎂</h1>
 
-    <!-- GİZLİ MÜZİK (YOUTUBE) -->
+    <!-- GİZLİ MÜZİK (YOUTUBE, görünmez) -->
     <iframe id="bg-music" width="0" height="0" style="display:none;" allow="autoplay"></iframe>
 
+    <!-- 10 FOTO -->
     <div class="gallery">
-      <img src="foto1.jpg" alt="">
-      <img src="foto2.jpg" alt="">
-      <img src="foto3.jpg" alt="">
-      <img src="foto4.jpg" alt="">
-      <img src="foto5.jpg" alt="">
+      <img src="foto1.jpg" alt="foto1">
+      <img src="foto2.jpg" alt="foto2">
+      <img src="foto3.jpg" alt="foto3">
+      <img src="foto4.jpg" alt="foto4">
+      <img src="foto5.jpg" alt="foto5">
+      <img src="foto6.jpg" alt="foto6">
+      <img src="foto7.jpg" alt="foto7">
+      <img src="foto8.jpg" alt="foto8">
+      <img src="foto9.jpg" alt="foto9">
+      <img src="foto10.jpg" alt="foto10">
     </div>
 
-    <div class="iban-box">
-      <div class="iban-text">IBAN: <span id="iban">TR630001200143800001108536</span></div>
-      <div class="iban-text">Alıcı: <span id="alici">ORHAN DORUK AYKAÇ</span></div>
-      <button class="copy-btn" onclick="copyIban()">📋 Kopyala</button>
+    <!-- Banner: 'En İyi Şekilde Ben Kutladım Demi Dayım' + finger -->
+    <div class="celebrate-banner" aria-hidden="false">
+      <div class="celebrate-text">En İyi Şekilde Ben Kutladım Demi Dayım</div>
+      <!-- parmak butonu; tıklayınca IBAN'a kay ve kopyala -->
+      <button class="finger-btn" title="IBAN'a git ve kopyala" onclick="gotoAndCopyIban()">👇</button>
+    </div>
+
+    <!-- IBAN kutusu -->
+    <div class="iban-box" id="iban-box">
+      <div class="iban-label">IBAN:</div>
+      <div class="iban-text" id="iban">TR630001200143800001108536</div>
+      <div class="alici-text">Alıcı: ORHAN DORUK AYKAÇ</div>
+      <button class="copy-btn" onclick="copyIban()">📋 IBAN'ı Kopyala</button>
     </div>
 
     <div class="messages-section">
@@ -199,7 +153,7 @@
       <textarea id="message" rows="3" placeholder="Mesajını yaz..."></textarea>
       <button class="copy-btn" onclick="addMessage()">Gönder</button>
 
-      <h3>📜 Gelen Mesajlar:</h3>
+      <h3 style="margin-top:12px">📜 Gelen Mesajlar:</h3>
       <div id="messages"></div>
     </div>
 
@@ -207,61 +161,86 @@
   </div>
 
   <script>
-    // Şifre kontrolü
+    // Şifre
     function checkPass() {
       const pass = document.getElementById("pass").value;
       if (pass === "09022013") {
         document.getElementById("password-screen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
         loadMessages();
-
-        // 🎵 Şifre doğruysa gizli müziği başlat
+        // başlat: gizli youtube müzik (kullanıcı etkileşimi olduğu için autoplay çalışır)
         const iframe = document.getElementById("bg-music");
-        iframe.src = "https://www.youtube.com/embed/EsHV2x0cS5k?autoplay=1&loop=1&playlist=EsHV2x0cS5k";
+        iframe.src = "https://www.youtube.com/embed/EsHV2x0cS5k?autoplay=1&loop=1&playlist=EsHV2x0cS5k&controls=0&rel=0";
       } else {
         alert("❌ Yanlış şifre!");
       }
     }
 
-    // IBAN kopyalama
+    // IBAN kopyala (normal buton)
     function copyIban() {
-      const iban = document.getElementById("iban").innerText;
-      navigator.clipboard.writeText(iban);
-      alert("✅ IBAN kopyalandı!");
+      const iban = document.getElementById("iban").innerText.trim();
+      navigator.clipboard.writeText(iban).then(() => {
+        alert("✅ IBAN kopyalandı!");
+      }).catch(() => {
+        // fallback
+        prompt("IBAN'ı kopyalayın:", iban);
+      });
     }
 
-    // Mesaj ekleme
+    // Finger button: önce IBAN'a kay, sonra kopyala
+    function gotoAndCopyIban() {
+      const box = document.getElementById("iban-box");
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => { copyIban(); }, 550); // kayma sonrası kopyala
+    }
+
+    // Mesaj ekleme (POST /api/message)
     async function addMessage() {
       const name = document.getElementById("name").value.trim();
       const msg = document.getElementById("message").value.trim();
       if (!name || !msg) return alert("Lütfen adını ve mesajını yaz.");
-
-      const res = await fetch("/api/message", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ name, msg })
-      });
-
-      if (res.ok) {
-        document.getElementById("name").value = "";
-        document.getElementById("message").value = "";
-        loadMessages();
-      } else {
-        alert("Mesaj kaydedilemedi 😢");
+      try {
+        const res = await fetch("/api/message", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ name, msg })
+        });
+        if (res.ok) {
+          document.getElementById("name").value = "";
+          document.getElementById("message").value = "";
+          loadMessages();
+        } else {
+          alert("Mesaj kaydedilemedi 😢");
+        }
+      } catch (e) {
+        alert("Sunucuya bağlanılamıyor.");
       }
     }
 
-    // Mesajları yükle
+    // Mesajları DB'den yükle (GET /api/messages)
     async function loadMessages() {
-      const res = await fetch("/api/messages");
-      const data = await res.json();
-      const box = document.getElementById("messages");
-      box.innerHTML = "";
-      data.forEach(m => {
-        const div = document.createElement("div");
-        div.classList.add("msg");
-        div.innerHTML = `<strong>${m.name}</strong>: ${m.msg}`;
-        box.appendChild(div);
+      try {
+        const res = await fetch("/api/messages");
+        if (!res.ok) return;
+        const data = await res.json();
+        const box = document.getElementById("messages");
+        box.innerHTML = "";
+        data.forEach(m => {
+          const d = document.createElement("div");
+          d.className = "msg";
+          d.innerHTML = `<strong>${escapeHtml(m.name)}</strong>: ${escapeHtml(m.msg)}`;
+          box.appendChild(d);
+        });
+      } catch (e) {
+        // sessiz hata (ör. lokalda backend yoksa)
+        console.warn("Mesajlar yüklenemedi:", e);
+      }
+    }
+
+    // basit XSS koruması için escape
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, function(c){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
       });
     }
   </script>
