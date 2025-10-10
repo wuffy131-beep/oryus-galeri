@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Levent Dayı’ya Sürpriz 🎉</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      overflow-x: hidden;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin-top: 40px;
+      color: #fff;
+      text-shadow: 2px 2px 5px #ff69b4;
+      animation: glow 2s infinite alternate;
+      padding: 0 10px;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 2px 2px 10px #ff69b4; }
+      to { text-shadow: 2px 2px 25px #ff1493; }
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      margin: 30px auto;
+      max-width: 1000px;
+      padding: 0 15px;
+    }
+
+    .gallery img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.07);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+    }
+
+    footer {
+      margin: 30px 0 20px;
+      color: white;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      text-shadow: 1px 1px 5px #ff69b4;
+    }
+
+    /* Mesaj kutusu */
+    .message-section {
+      background: rgba(255,255,255,0.8);
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 600px;
+      margin: 30px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .message-section h2 {
+      color: #ff1493;
+      margin-bottom: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    button {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff1493;
+    }
+
+    .messages {
+      margin-top: 20px;
+      text-align: left;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .msg {
+      background: #ffe5ec;
+      border-left: 5px solid #ff69b4;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      word-wrap: break-word;
+    }
+
+    .msg strong {
+      color: #ff1493;
+    }
+
+    /* Balon animasyonu */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 40px;
+      height: 60px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity: 0.8;
+      animation: float 10s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-120vh); }
+    }
+
+    /* Giriş ekranı */
+    #password-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #ffb6b9, #fae3d9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #password-screen h2 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      margin-bottom: 10px;
+      color: #ff1493;
+    }
+
+    #password-screen input {
+      padding: 10px 15px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      text-align: center;
+      max-width: 250px;
+      width: 80%;
+    }
+
+    #password-screen button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      background: #ff69b4;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #password-screen button:hover {
+      background: #ff1493;
+    }
+
+    #hint {
+      margin-top: 10px;
+      color: #555;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    audio { display: none; }
+  </style>
+</head>
+<body>
+  <div id="password-screen">
+    <h2>🔒 Sürpriz Siteye Giriş</h2>
+    <p>Şifreyi gir:</p>
+    <input type="password" id="pass" placeholder="Şifre">
+    <button onclick="checkPass()">GİRİŞ</button>
+    <p id="hint">İpucu: Wuffy’nin doğum günü 🎂</p>
+  </div>
+
+  <div id="main-content" style="display:none;">
+    <h1>🎉 İyi ki Doğdun Levent Dayı! 🎂</h1>
+
+    <audio autoplay loop>
+      <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="gallery">
+      <img src="foto1.jpg" alt="foto1">
+      <img src="foto2.jpg" alt="foto2">
+      <img src="foto3.jpg" alt="foto3">
+      <img src="foto4.jpg" alt="foto4">
+      <img src="foto5.jpg" alt="foto5">
+      <img src="foto6.jpg" alt="foto6">
+      <img src="foto7.jpg" alt="foto7">
+      <img src="foto8.jpg" alt="foto8">
+      <img src="foto9.jpg" alt="foto9">
+      <img src="foto10.jpg" alt="foto10">
+    </div>
+
+    <!-- 💌 Mesaj Bölümü -->
+    <div class="message-section">
+      <h2>💌 Levent Dayı’ya Mesaj Bırak</h2>
+      <input type="text" id="name" placeholder="Adın">
+      <textarea id="message" rows="3" placeholder="Mesajın..."></textarea>
+      <button onclick="addMessage()">Gönder</button>
+
+      <div class="messages" id="messages"></div>
+    </div>
+
+    <footer>💖 Sevgilerle, [Senin Adın]</footer>
+  </div>
+
+  <script>
+    function checkPass() {
+      const pass = document.getElementById("pass").value;
+      if (pass === "09022013") {
+        document.getElementById("password-screen").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+
+        // Balonlar
+        const colors = ["#ff4b5c","#ffb6b9","#fae3d9","#bbded6","#8ac6d1"];
+        for(let i = 0; i < 20; i++) {
+          let b = document.createElement("div");
+          b.classList.add("balloon");
+          b.style.background = colors[Math.floor(Math.random() * colors.length)];
+          b.style.left = Math.random() * 100 + "vw";
+          b.style.animationDuration = (6 + Math.random() * 5) + "s";
+          document.body.appendChild(b);
+        }
+      } else {
+        alert("❌ Yanlış şifre! Tekrar dene.");
+      }
+    }
+
+    function addMessage() {
+      const name = document.getElementById("name").value.trim();
+      const msg = document.getElementById("message").value.trim();
+      if (name === "" || msg === "") {
+        alert("Lütfen adını ve mesajını yaz 📝");
+        return;
+      }
+
+      const div = document.createElement("div");
+      div.classList.add("msg");
+      div.innerHTML = `<strong>${name}</strong>: ${msg}`;
+      document.getElementById("messages").appendChild(div);
+
+      // Temizle
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
+    }
+  </script>
+</body>
+</html>
