@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -169,15 +170,14 @@
     <p>Şifreyi gir:</p>
     <input type="password" id="pass" placeholder="Şifre">
     <button onclick="checkPass()">GİRİŞ</button>
-    <p id="hint">İpucu:En Sevdigin Yegeninin Dogum Günü Gün Ay Yıl 🎂</p>
+    <p id="hint">İpucu: En Sevdiğin Yeğeninin Doğum Günü 🎂</p>
   </div>
 
   <div id="main-content" style="display:none;">
-    <h1>🎉 İyi ki Doğdun  Dayım! 🎂</h1>
+    <h1>🎉 İyi ki Doğdun Dayım! 🎂</h1>
 
-    <audio autoplay loop>
-      <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <!-- GİZLİ MÜZİK (YOUTUBE) -->
+    <iframe id="bg-music" width="0" height="0" style="display:none;" allow="autoplay"></iframe>
 
     <div class="gallery">
       <img src="foto1.jpg" alt="">
@@ -188,8 +188,7 @@
     </div>
 
     <div class="iban-box">
-      <div class="iban-text">IBAN: <span id="iban">TR630001200143800001108536
-</span></div>
+      <div class="iban-text">IBAN: <span id="iban">TR630001200143800001108536</span></div>
       <div class="iban-text">Alıcı: <span id="alici">ORHAN DORUK AYKAÇ</span></div>
       <button class="copy-btn" onclick="copyIban()">📋 Kopyala</button>
     </div>
@@ -215,6 +214,10 @@
         document.getElementById("password-screen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
         loadMessages();
+
+        // 🎵 Şifre doğruysa gizli müziği başlat
+        const iframe = document.getElementById("bg-music");
+        iframe.src = "https://www.youtube.com/embed/EsHV2x0cS5k?autoplay=1&loop=1&playlist=EsHV2x0cS5k";
       } else {
         alert("❌ Yanlış şifre!");
       }
